@@ -1,0 +1,45 @@
+import customtkinter
+
+from my_widgets import custom_calendar, menu
+
+
+class App(customtkinter.CTk):
+    """Class for application here will be include all app windows and widgets"""    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        
+        #? base app settigns
+        self.appearance_mode = customtkinter.set_appearance_mode
+        self.color_theme = customtkinter.set_default_color_theme("dark-blue")
+        self.title("My notebook")
+        self.geometry("1280x720")
+        self.resizable(False, False)
+
+        #? Widgets
+        self.calendar = custom_calendar.CalendarSection(self)
+        self.calendar.grid(row=0, column=0, columnspan=4, rowspan=4, padx=20, pady=(20, 0))
+        
+        self.menu = menu.Menu(self)
+        self.menu.grid(row=0, column=4, padx=(90, 0))
+        
+        
+        # switch appearance_mode
+        self.appearance_state = customtkinter.StringVar(value="light")
+        self.current_appearance_mode = customtkinter.CTkSwitch(
+            self, text="Light/Dark mode", command=self.switch_appearance_event,
+            variable=self.appearance_state, onvalue="light", offvalue="dark",
+            height=50, width=100
+        )
+        self.current_appearance_mode.grid(row=0, column=5, sticky="ne")
+    
+    def switch_appearance_event(self):
+        self.appearance_mode(
+            self.appearance_state.get()
+        )
+    
+    def run(self) -> None:
+        self.mainloop()
+        
+
+if __name__ == "__main__":
+    App().run()
