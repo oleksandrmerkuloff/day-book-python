@@ -1,6 +1,7 @@
 import customtkinter
 
-from my_widgets import custom_calendar, menu
+from application_windows.my_widgets import custom_calendar, menu
+from application_windows import user_notes
 
 
 class App(customtkinter.CTk):
@@ -19,7 +20,7 @@ class App(customtkinter.CTk):
         self.calendar = custom_calendar.CalendarSection(self)
         self.calendar.grid(row=0, column=0, columnspan=4, rowspan=4, padx=20, pady=(20, 0))
         
-        self.menu = menu.Menu(self)
+        self.menu = menu.Menu(self, user_notes.NotesWindow)
         self.menu.grid(row=0, column=4, padx=(90, 0))
         
         
