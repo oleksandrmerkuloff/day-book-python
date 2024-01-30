@@ -7,7 +7,7 @@ class NoteWindow(customtkinter.CTkToplevel):
         
         #? Window config
         self.geometry("400x300")
-        self.resizable(True, True)
+        self.resizable(False, False)
         self.title("Program name")
         
         #? Widgets
