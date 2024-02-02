@@ -12,12 +12,12 @@ def test_event():
 class ContactsScrollFrame(customtkinter.CTkScrollableFrame):
     """ScrollFrame class where user see a contacts list"""
     def __init__(self, master: Any, **kwargs) -> None:
-        super().__init__(master, **kwargs)
+        super().__init__(master,height=350, width=300, **kwargs)
         self.btn_list = []
         for friend in range(len(friends)):
             friend_name = friends[friend]
-            btn = customtkinter.CTkButton(self, text=friend_name, command=test_event)
-            btn.grid(row=friend, padx=30, pady=3)
+            btn = customtkinter.CTkButton(self, text=friend_name, command=test_event, width=250)
+            btn.grid(row=friend, padx=25, pady=3)
             self.btn_list.append(btn)
             
 if __name__ == "__main__":
