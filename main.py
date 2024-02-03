@@ -25,7 +25,7 @@ class App(customtkinter.CTk):
         
         
         # switch appearance_mode
-        self.appearance_state = customtkinter.StringVar(value="light")
+        self.appearance_state = customtkinter.StringVar(value=customtkinter.get_appearance_mode().lower())
         self.current_appearance_mode = customtkinter.CTkSwitch(
             self, text="Light/Dark mode", command=self.switch_appearance_event,
             variable=self.appearance_state, onvalue="light", offvalue="dark",
