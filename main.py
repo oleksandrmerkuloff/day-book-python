@@ -18,7 +18,11 @@ class App(customtkinter.CTk):
 
         #? Widgets
         self.calendar = custom_calendar.CalendarSection(self)
-        self.calendar.grid(row=0, column=0, columnspan=4, rowspan=4, padx=20, pady=(20, 0))
+        self.calendar.grid(
+            row=0, column=0,
+            padx=20, pady=(20, 0),
+            ipadx=160
+            )
 
         self.menu = menu.Menu(self, user_notes.NotesWindow, contacts_window.ContactsWindow)
         self.menu.grid(row=0, column=4, padx=(90, 0))
