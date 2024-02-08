@@ -31,46 +31,10 @@ class CalendarSection(customtkinter.CTkFrame):
 
         # calendar data (year, month, day, etc.)
         self.current_date = date.today()
-        label_of_year_number = customtkinter.CTkLabel(
-            self,
-            text=f"Year {self.current_date.year}"
-            ).grid(row=0, column=3)
-        label_of_the_current_month = customtkinter.CTkLabel(
-            self,
-            text=self.current_date.strftime("%B")
-            ).grid(row=1, column=3)
+        self.year = self.current_date.year
+        self.month = self.current_date.month
 
-        self.day_labels = []
-        column_index = 0
-        for day in WeekDays():
-            self.day_labels.append(
-                customtkinter.CTkLabel(self, text=day).grid(column=column_index, row=2, padx=10)
-            )
-            column_index += 1
-
-        self.current_month_days_btns = []
-        days_iterator = calendar.Calendar().itermonthdays(
-            year=self.current_date.year,
-            month=self.current_date.month
-        )
-        day_list = list(filter(lambda x: x != 0, days_iterator))
-        row_index = 3
-        column_index = date.weekday(date(
-            self.current_date.year,
-            self.current_date.month,
-            1
-        ))
-        for day in day_list:
-            if column_index == 7:
-                column_index = 0
-                row_index += 1
-            self.current_month_days_btns.append(
-                customtkinter.CTkButton(self, text=day, height=80, width=70).grid(
-                    row=row_index, column=column_index, pady=(0, 10), padx=10
-                )
-            )
-            column_index += 1
-
+        self.fill_window()
 
         # Btns for switching month
         self.switch_btn_frame = customtkinter.CTkFrame(self, height=50)
@@ -83,12 +47,85 @@ class CalendarSection(customtkinter.CTkFrame):
         self.prev_month_btn = customtkinter.CTkButton(
             self.switch_btn_frame,
             text="prev",
-            width=60
+            width=60,
+            command=self.decrease_date
             )
         self.prev_month_btn.grid(row=0, column=0, padx=(0, 50), pady=10)
         self.next_month_btn = customtkinter.CTkButton(
             self.switch_btn_frame,
             text="next",
-            width=60
+            width=60,
+            command=self.increase_date
             )
         self.next_month_btn.grid(row=0, column=1, padx=(50, 0), pady=10)
+
+    def increase_date(self):
+        self.month += 1
+        if self.month > 12:
+            self.year += 1
+            self.month = 0
+        for widget in self.winfo_children():
+            widget.destroy()
+        self.fill_window()
+
+    def decrease_date(self):
+        self.month -= 1
+        if self.month < 0:
+            self.year -= 1
+            self.month = 12
+        for widget in self.winfo_children():
+            widget.destroy()
+        self.fill_window()
+
+    def fill_window(self):
+        self.create_year_label()
+        self.create_month_label()
+
+        self.generate_weekdays_names()
+
+        self.get_days_list()
+
+    def create_year_label(self):
+        customtkinter.CTkLabel(
+            self,
+            text=f"Year {self.year}"
+            ).grid(row=0, column=3)
+
+    def create_month_label(self):
+        customtkinter.CTkLabel(
+            self,
+            text=calendar.month_name[self.month]
+            ).grid(row=1, column=3)
+
+    def generate_weekdays_names(self):
+        column_index = 0
+        for day in WeekDays():
+            customtkinter.CTkLabel(self, text=day).grid(column=column_index, row=2, padx=10)
+            column_index += 1
+
+    def get_days_list(self):
+        self.current_month_days_btns = []
+        days_iterator = calendar.Calendar().itermonthdays(
+            year=self.current_date.year,
+            month=self.current_date.month
+        )
+        days_list = list(filter(lambda x: x != 0, days_iterator))
+        self.create_calendar(days_list)
+
+    def create_calendar(self, days_list):
+        row_index = 3
+        column_index = date.weekday(date(
+            self.current_date.year,
+            self.current_date.month,
+            1
+        ))
+        for day in days_list:
+            if column_index == 7:
+                column_index = 0
+                row_index += 1
+            self.current_month_days_btns.append(
+                customtkinter.CTkButton(self, text=day, height=80, width=70).grid(
+                    row=row_index, column=column_index, pady=(0, 10), padx=10
+                )
+            )
+            column_index += 1
