@@ -106,8 +106,8 @@ class CalendarSection(customtkinter.CTkFrame):
     def get_days_list(self):
         self.current_month_days_btns = []
         days_iterator = calendar.Calendar().itermonthdays(
-            year=self.current_date.year,
-            month=self.current_date.month
+            year=self.year,
+            month=self.month
         )
         days_list = list(filter(lambda x: x != 0, days_iterator))
         self.create_calendar(days_list)
@@ -115,8 +115,8 @@ class CalendarSection(customtkinter.CTkFrame):
     def create_calendar(self, days_list):
         row_index = 3
         column_index = date.weekday(date(
-            self.current_date.year,
-            self.current_date.month,
+            self.year,
+            self.month,
             1
         ))
         for day in days_list:
