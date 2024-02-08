@@ -21,11 +21,10 @@ class App(customtkinter.CTk):
         self.calendar.grid(
             row=0, column=0,
             padx=20, pady=(20, 0),
-            ipadx=160
             )
 
         self.menu = menu.Menu(self, user_notes.NotesWindow, contacts_window.ContactsWindow)
-        self.menu.grid(row=0, column=4, padx=(90, 0))
+        self.menu.grid(row=0, column=4, padx=120, pady=(120, 0), sticky="ne")
 
         # switch appearance_mode
         self.appearance_state = customtkinter.StringVar(value=customtkinter.get_appearance_mode().lower())

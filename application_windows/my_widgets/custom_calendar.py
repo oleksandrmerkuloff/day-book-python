@@ -3,9 +3,31 @@ from datetime import date
 import calendar
 
 
-class MyCalendar(customtkinter.CTkFrame):
+class WeekDays:
+    def __init__(self) -> None:
+        self.names = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+
+    def __iter__(self):
+        self.current_day_index = 0
+        return self
+
+    def __next__(self):
+        if self.current_day_index > len(self.names) - 1:
+            raise StopIteration
+        else:
+            day_name = self.names[self.current_day_index]
+            self.current_day_index += 1
+            return day_name
+
+    def get_day_name(self, day_index):
+        if day_index > 6:
+            return False
+        return self.names[day_index]
+
+
+class CalendarSection(customtkinter.CTkFrame):
     def __init__(self, master, **kwargs):
-        super().__init__(master, width=800, height=600, **kwargs)
+        super().__init__(master, **kwargs)
 
         # calendar data (year, month, day, etc.)
         self.current_date = date.today()
@@ -43,49 +65,21 @@ class MyCalendar(customtkinter.CTkFrame):
                 column_index = 0
                 row_index += 1
             self.current_month_days_btns.append(
-                customtkinter.CTkButton(self, text=day, height=50, width=60).grid(
-                    row=row_index, column=column_index, pady=(0, 10)
+                customtkinter.CTkButton(self, text=day, height=80, width=70).grid(
+                    row=row_index, column=column_index, pady=(0, 10), padx=10
                 )
             )
             column_index += 1
 
 
-class WeekDays:
-    def __init__(self) -> None:
-        self.names = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
-
-    def __iter__(self):
-        self.current_day_index = 0
-        return self
-
-    def __next__(self):
-        if self.current_day_index > len(self.names) - 1:
-            raise StopIteration
-        else:
-            day_name = self.names[self.current_day_index]
-            self.current_day_index += 1
-            return day_name
-
-    def get_day_name(self, day_index):
-        if day_index > 6:
-            return False
-        return self.names[day_index]
-
-
-class CalendarSection(customtkinter.CTkFrame):
-    def __init__(self, master, **kwargs):
-        # Frame setting
-        super().__init__(master, width=800, height=800, **kwargs)
-
-        # Calendar settings
-        self.calendar_frame = MyCalendar(self)
-        self.calendar_frame.grid(
-            row=0, column=0
-            )
-
         # Btns for switching month
         self.switch_btn_frame = customtkinter.CTkFrame(self, height=50)
-        self.switch_btn_frame.grid(row=1, column=0, columnspan=3)
+        self.switch_btn_frame.grid(
+            row=8,
+            column=2,
+            columnspan=3,
+            pady=(40, 0)
+            )
         self.prev_month_btn = customtkinter.CTkButton(
             self.switch_btn_frame,
             text="prev",
