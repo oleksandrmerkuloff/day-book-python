@@ -1,6 +1,6 @@
 import customtkinter
 
-from application_windows.my_widgets import custom_calendar, menu
+from application_windows.my_widgets import custom_calendar, menu, switch_btns_frame
 from application_windows import user_notes, contacts_window
 
 
@@ -22,6 +22,10 @@ class App(customtkinter.CTk):
             row=0, column=0,
             padx=20, pady=(20, 0),
             )
+
+        self.footer_btns_frame = switch_btns_frame.SwitchBtnsFrame(
+            self, self.calendar
+        ).grid(row=1, column=0, pady=(20, 0))
 
         self.menu = menu.Menu(self, user_notes.NotesWindow, contacts_window.ContactsWindow)
         self.menu.grid(row=0, column=4, padx=120, pady=(120, 0), sticky="ne")

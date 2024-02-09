@@ -36,47 +36,6 @@ class CalendarSection(customtkinter.CTkFrame):
 
         self.fill_window()
 
-        # Btns for switching month
-        self.switch_btn_frame = customtkinter.CTkFrame(self, height=50)
-        self.switch_btn_frame.grid(
-            row=8,
-            column=2,
-            columnspan=3,
-            pady=(40, 0)
-            )
-        self.prev_month_btn = customtkinter.CTkButton(
-            self.switch_btn_frame,
-            text="prev",
-            width=60,
-            command=self.decrease_date
-            )
-        self.prev_month_btn.grid(row=0, column=0, padx=(0, 50), pady=10)
-        self.next_month_btn = customtkinter.CTkButton(
-            self.switch_btn_frame,
-            text="next",
-            width=60,
-            command=self.increase_date
-            )
-        self.next_month_btn.grid(row=0, column=1, padx=(50, 0), pady=10)
-
-    def increase_date(self):
-        self.month += 1
-        if self.month > 12:
-            self.year += 1
-            self.month = 0
-        for widget in self.winfo_children():
-            widget.destroy()
-        self.fill_window()
-
-    def decrease_date(self):
-        self.month -= 1
-        if self.month < 0:
-            self.year -= 1
-            self.month = 12
-        for widget in self.winfo_children():
-            widget.destroy()
-        self.fill_window()
-
     def fill_window(self):
         self.create_year_label()
         self.create_month_label()
@@ -129,3 +88,21 @@ class CalendarSection(customtkinter.CTkFrame):
                 )
             )
             column_index += 1
+
+    def increase_date(self):
+        self.month += 1
+        if self.month > 12:
+            self.year += 1
+            self.month = 1
+        for widget in self.winfo_children():
+            widget.destroy()
+        self.fill_window()
+
+    def decrease_date(self):
+        self.month -= 1
+        if self.month == 0:
+            self.year -= 1
+            self.month = 12
+        for widget in self.winfo_children():
+            widget.destroy()
+        self.fill_window()
