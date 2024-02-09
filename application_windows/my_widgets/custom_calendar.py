@@ -37,6 +37,9 @@ class CalendarSection(customtkinter.CTkFrame):
         self.fill_window()
 
     def fill_window(self):
+        for widget in self.winfo_children():
+            widget.destroy()
+
         self.create_year_label()
         self.create_month_label()
 
@@ -89,13 +92,16 @@ class CalendarSection(customtkinter.CTkFrame):
             )
             column_index += 1
 
+    def to_today(self):
+        self.year = self.current_date.year
+        self.month = self.current_date.month
+        self.fill_window()
+
     def increase_date(self):
         self.month += 1
         if self.month > 12:
             self.year += 1
             self.month = 1
-        for widget in self.winfo_children():
-            widget.destroy()
         self.fill_window()
 
     def decrease_date(self):
@@ -103,6 +109,4 @@ class CalendarSection(customtkinter.CTkFrame):
         if self.month == 0:
             self.year -= 1
             self.month = 12
-        for widget in self.winfo_children():
-            widget.destroy()
         self.fill_window()
